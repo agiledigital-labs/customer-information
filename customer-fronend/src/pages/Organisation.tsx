@@ -6,7 +6,7 @@ import {
   Create,
   SimpleForm,
   TextField,
-  DateInput,
+  SingleFieldList,
   TextInput,
   Show,
   SimpleShowLayout,
@@ -27,11 +27,11 @@ export const Organisation = (props: any) => (
         reference={"employment"}
         target={"organisation_id"}
       >
-        <Datagrid rowClick={"show"}>
+        <SingleFieldList>
           <ReferenceField reference={"people"} source={"user_id"}>
             <TextField source="first_name" label={"Employee"} />
           </ReferenceField>
-        </Datagrid>
+        </SingleFieldList>
       </ReferenceManyField>
       <EditButton basePath={"/organisation"} />
     </Datagrid>

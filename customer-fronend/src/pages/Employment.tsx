@@ -15,6 +15,8 @@ import {
   DateField,
   SingleFieldList,
   EditButton,
+  ReferenceInput,
+  SelectInput,
 } from "react-admin";
 
 export const Employment = (props: any) => (
@@ -40,8 +42,12 @@ const EmploymentTitle = ({ record }: any) => {
 export const EmploymentEdit = (props: any) => (
   <Edit title={<EmploymentTitle />} {...props}>
     <SimpleForm>
-      <TextInput source="user_id" />
-      <TextInput source="organisation_id" />
+      <ReferenceInput source="user_id" reference="people">
+        <SelectInput optionText="first_name" />
+      </ReferenceInput>
+      <ReferenceInput source="organisation_id" reference="organisation">
+        <SelectInput optionText="name" />
+      </ReferenceInput>
       <DateInput source="start_date" type={"timestamp"} />
       <DateInput source="end_date" type={"timestamp"} />
     </SimpleForm>
@@ -51,8 +57,12 @@ export const EmploymentEdit = (props: any) => (
 export const EmploymentCreate = (props: any) => (
   <Create title="Create a person record" {...props}>
     <SimpleForm>
-      <TextInput source="user_id" />
-      <TextInput source="organisation_id" />
+      <ReferenceInput source="user_id" reference="people">
+        <SelectInput optionText="first_name" />
+      </ReferenceInput>
+      <ReferenceInput source="organisation_id" reference="organisation">
+        <SelectInput optionText="name" />
+      </ReferenceInput>
       <DateInput source="start_date" type={"timestamp"} />
       <DateInput source="end_date" type={"timestamp"} />
     </SimpleForm>

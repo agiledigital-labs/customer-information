@@ -11,14 +11,19 @@ import {
   Show,
   SimpleShowLayout,
   DateField,
-  RichTextField,
+  ReferenceInput,
+  SelectInput,
   EditButton,
+  ReferenceField,
 } from "react-admin";
+import RichTextInput from "ra-input-rich-text";
 
 export const Notes = (props: any) => (
   <List {...props} hasShow={true}>
     <Datagrid rowClick={"show"}>
-      <TextField source="user_id" />
+      <ReferenceField reference={"people"} source={"user_id"}>
+        <TextField source="first_name" />
+      </ReferenceField>
       <TextField source="note" />
       <DateField source="timestamp" />
       <EditButton basePath="/notes" />
@@ -33,9 +38,10 @@ const NotesTitle = ({ record }: any) => {
 export const NotesEdit = (props: any) => (
   <Edit title={<NotesTitle />} {...props}>
     <SimpleForm>
-      <TextInput source="user_id" />
-      <TextInput source="note" />
-      <DateInput source="timestamp" type={"timestamp"} />
+      <ReferenceField reference={"people"} source={"user_id"}>
+        <TextField source="first_name" />
+      </ReferenceField>
+      <RichTextInput source="note" />
     </SimpleForm>
   </Edit>
 );
@@ -43,9 +49,10 @@ export const NotesEdit = (props: any) => (
 export const NotesCreate = (props: any) => (
   <Create title="Create a person record" {...props}>
     <SimpleForm>
-      <TextInput source="user_id" />
-      <TextInput source="note" />
-      <DateInput source="timestamp" type={"timestamp"} />
+      <ReferenceInput source="user_id" reference="people">
+        <SelectInput optionText="first_name" />
+      </ReferenceInput>
+      <RichTextInput source="note" />
     </SimpleForm>
   </Create>
 );

@@ -10,9 +10,10 @@ import {
   TextInput,
   Show,
   SimpleShowLayout,
-  DateField,
+  SingleFieldList,
   RichTextField,
   ReferenceManyField,
+  ReferenceField,
 } from "react-admin";
 
 export const People = (props: any) => (
@@ -22,6 +23,17 @@ export const People = (props: any) => (
       <TextField source="last_name" />
       <TextField source="email" />
       <TextField source="phone" />
+      <ReferenceManyField
+        label={"Employers"}
+        reference={"employment"}
+        target={"user_id"}
+      >
+        <SingleFieldList>
+          <ReferenceField reference={"organisation"} source={"organisation_id"}>
+            <TextField source="name" label={"All Employment"} />
+          </ReferenceField>
+        </SingleFieldList>
+      </ReferenceManyField>
       <EditButton basePath="/people" />
     </Datagrid>
   </List>
@@ -60,9 +72,13 @@ export const PeopleShow = (props: any) => (
       <TextField source="last_name" />
       <TextField source="email" />
       <TextField source="phone" />
-      <ReferenceManyField reference={"notes"} target={"user_id"}>
+      <ReferenceManyField
+        reference={"notes"}
+        target={"user_id"}
+        label={"Notes"}
+      >
         <Datagrid>
-          <RichTextField label={`Notes`} source={"note"}></RichTextField>
+          <RichTextField label={``} source={"note"}></RichTextField>
         </Datagrid>
       </ReferenceManyField>
     </SimpleShowLayout>
