@@ -22,11 +22,25 @@ Resources:
     Type: AWS::Cognito::UserPoolClient
     Properties:
       UserPoolId: !Ref userPool
+      PreventUserExistenceErrors: ENABLED
+      AllowedOAuthFlows:
+        - implicit
+        - code
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
-      PreventUserExistenceErrors: ENABLED
+        - ALLOW_USER_SRP_AUTH
       ClientName: CliAuth
+      SupportedIdentityProviders:
+        - Google
+      CallbackURLs:
+        - 'http://localhost:3000/auth'
+      AllowedOAuthScopes:
+        - profile
+        - openid
+        - email
+      AllowedOAuthFlowsUserPoolClient: true
+
   userPoolLambdaInvokePermission:
     Type: AWS::Lambda::Permission
     Properties:
@@ -34,6 +48,19 @@ Resources:
       Principal: cognito-idp.amazonaws.com
       FunctionName: !GetAtt CognitoPreTokenGeneratorLambdaFunction.Arn
       SourceArn: !GetAtt userPool.Arn
+
+  googleProvider:
+    Type: AWS::Cognito::UserPoolIdentityProvider
+    Properties:
+      UserPoolId: !Ref userPool
+      ProviderName: Google
+      ProviderDetails:
+        client_id: ${env:GOOGLE_CLIENT_ID}
+        client_secret: ${env:GOOGLE_CLIENT_SECRET}
+        authorize_scopes: '${env:GOOGLE_SCOPES}'
+      ProviderType: Google
+      AttributeMapping:
+        email: 'email'
 
 Outputs:
   CognitoClientId:
