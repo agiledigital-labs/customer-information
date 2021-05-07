@@ -5,6 +5,7 @@ Resources:
       UserPoolName: ${self:provider.stage}-postgrest
       LambdaConfig:
         PreTokenGeneration: !GetAtt CognitoPreTokenGeneratorLambdaFunction.Arn
+        PreAuthentication: !GetAtt CognitoPreAuthLambdaFunction.Arn
       Schema:
         - AttributeDataType: String
           Name: role
@@ -34,12 +35,20 @@ Resources:
       SupportedIdentityProviders:
         - Google
       CallbackURLs:
-        - 'http://localhost:3000/auth'
+        - 'http://localhost:3000'
+      LogoutURLs:
+        - 'http://localhost:3000'
       AllowedOAuthScopes:
         - profile
         - openid
         - email
       AllowedOAuthFlowsUserPoolClient: true
+
+  userPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: agiledigital-fedex-crm
+      UserPoolId: !Ref userPool
 
   userPoolLambdaInvokePermission:
     Type: AWS::Lambda::Permission
@@ -47,6 +56,14 @@ Resources:
       Action: lambda:invokeFunction
       Principal: cognito-idp.amazonaws.com
       FunctionName: !GetAtt CognitoPreTokenGeneratorLambdaFunction.Arn
+      SourceArn: !GetAtt userPool.Arn
+
+  userPoolLambdaInvokePermissionPreAuth:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:invokeFunction
+      Principal: cognito-idp.amazonaws.com
+      FunctionName: !GetAtt CognitoPreAuthLambdaFunction.Arn
       SourceArn: !GetAtt userPool.Arn
 
   googleProvider:
@@ -60,7 +77,8 @@ Resources:
         authorize_scopes: '${env:GOOGLE_SCOPES}'
       ProviderType: Google
       AttributeMapping:
-        email: 'email'
+        email: email
+        name: preferred_username
 
 Outputs:
   CognitoClientId:
