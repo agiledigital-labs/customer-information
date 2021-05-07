@@ -4,6 +4,7 @@ import { MigrationBuilder, ColumnDefinitions } from 'node-pg-migrate';
 export const shorthands: ColumnDefinitions | undefined = undefined;
 
 export async function up(pgm: MigrationBuilder): Promise<void> {
+
   pgm.createRole('standard', {
     login: false,
   });
@@ -46,4 +47,5 @@ export async function down(pgm: MigrationBuilder): Promise<void> {
   pgm.sql('REVOKE INSERT ON listings.users FROM admin');
   pgm.sql('REVOKE SELECT ON listings.users FROM admin');
   pgm.dropRole('admin');
+
 }
