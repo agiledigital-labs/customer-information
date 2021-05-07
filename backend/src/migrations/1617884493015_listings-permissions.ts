@@ -46,8 +46,4 @@ export async function down(pgm: MigrationBuilder): Promise<void> {
   pgm.sql('REVOKE INSERT ON listings.users FROM admin');
   pgm.sql('REVOKE SELECT ON listings.users FROM admin');
   pgm.dropRole('admin');
-<<<<<<< HEAD
-=======
-
->>>>>>> 6b5f143defe9270328fe2024896bd5c94df0bd53
 }
