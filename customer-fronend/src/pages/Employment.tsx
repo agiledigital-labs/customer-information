@@ -3,6 +3,7 @@ import {
   List,
   Datagrid,
   Edit,
+  ReferenceField,
   Create,
   SimpleForm,
   TextField,
@@ -10,16 +11,21 @@ import {
   TextInput,
   Show,
   SimpleShowLayout,
+  ChipField,
   DateField,
-  RichTextField,
+  SingleFieldList,
   EditButton,
 } from "react-admin";
 
 export const Employment = (props: any) => (
   <List {...props} hasShow={true}>
     <Datagrid rowClick={"show"}>
-      <TextField source="user_id" />
-      <TextField source="organisation_id" />
+      <ReferenceField reference={"organisation"} source={"organisation_id"}>
+        <TextField source="name" />
+      </ReferenceField>
+      <ReferenceField reference={"people"} source={"user_id"}>
+        <TextField source="first_name" />
+      </ReferenceField>
       <DateField source="start_date" />
       <DateField source="end_date" />
       <EditButton basePath={"/employment"} />

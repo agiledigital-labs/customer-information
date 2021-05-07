@@ -12,6 +12,7 @@ import {
   SimpleShowLayout,
   DateField,
   RichTextField,
+  ReferenceManyField,
 } from "react-admin";
 
 export const People = (props: any) => (
@@ -59,6 +60,11 @@ export const PeopleShow = (props: any) => (
       <TextField source="last_name" />
       <TextField source="email" />
       <TextField source="phone" />
+      <ReferenceManyField reference={"notes"} target={"user_id"}>
+        <Datagrid>
+          <RichTextField label={`Notes`} source={"note"}></RichTextField>
+        </Datagrid>
+      </ReferenceManyField>
     </SimpleShowLayout>
   </Show>
 );

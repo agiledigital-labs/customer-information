@@ -11,7 +11,10 @@ import {
   Show,
   SimpleShowLayout,
   DateField,
-  RichTextField, EditButton,
+  RichTextField,
+  EditButton,
+  ReferenceManyField,
+  ReferenceField,
 } from "react-admin";
 
 export const Organisation = (props: any) => (
@@ -19,7 +22,18 @@ export const Organisation = (props: any) => (
     <Datagrid rowClick={"show"}>
       <TextField source="name" />
       <TextField source="address" />
-      <EditButton basePath={'/organisation'}/>
+      <ReferenceManyField
+        label={"Employees"}
+        reference={"employment"}
+        target={"organisation_id"}
+      >
+        <Datagrid rowClick={"show"}>
+          <ReferenceField reference={"people"} source={"user_id"}>
+            <TextField source="first_name" label={"Employee"} />
+          </ReferenceField>
+        </Datagrid>
+      </ReferenceManyField>
+      <EditButton basePath={"/organisation"} />
     </Datagrid>
   </List>
 );
