@@ -5,15 +5,12 @@ import {
   Edit,
   Create,
   SimpleForm,
-  DateField,
   TextField,
   EditButton,
   TextInput,
 } from "react-admin";
-import BookIcon from "@material-ui/icons/Book";
-export const PostIcon = BookIcon;
 
-export const UsersList = (props: any) => (
+export const Users = (props: any) => (
   <List {...props}>
     <Datagrid>
       <TextField source="id" />
@@ -25,7 +22,7 @@ export const UsersList = (props: any) => (
 );
 
 const UsersTitle = ({ record }: any) => {
-  return <span>User {record ? `"${record.title}"` : ""}</span>;
+  return <span>User {record ? `"${record.username}"` : ""}</span>;
 };
 
 export const UsersEdit = (props: any) => (
@@ -39,7 +36,7 @@ export const UsersEdit = (props: any) => (
 );
 
 export const UsersCreate = (props: any) => (
-  <Create title="Create a Post" {...props}>
+  <Create title="Create a user" {...props}>
     <SimpleForm>
       <TextInput source="email" />
       <TextInput source="username" />
