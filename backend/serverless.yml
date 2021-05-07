@@ -92,6 +92,9 @@ functions:
   cognitoPreTokenGenerator:
     handler: src/handlers/preTokenGenerator.handler
 
+  cognitoPreAuth:
+    handler: src/handlers/preAuth.handler
+
   asyncEventProcessing:
     handler: src/handlers/asyncEventProcessing.handler
     environment:

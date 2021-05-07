@@ -14,7 +14,7 @@ export const handler = async (
     response: {
       claimsOverrideDetails: {
         claimsToAddOrOverride: {
-          role: event.request.userAttributes['custom:role'],
+          role: event.request.userAttributes['custom:role'] ?? 'standard',
         },
       },
     },
